@@ -1,0 +1,45 @@
+uv run fastapi dev
+uvicorn main:app --rolad
+
+uv 설치 필요
+anaconda or miniconda 설치 필요
+
+Pydantic 모델 생성하게 하는거 -> FastAPI에 같이 있음
+
+fastapi docs (기능 정상 동작 하는지 확인하는 곳)
+http://127.0.0.1:8000/docs
+
+1. 폴더 진입 후 fastapi 설치
+uv add "fastapi[standard]" 
+
+2. fastapi 초기설정 파일 생성
+uv init
+
+3. 가상환경 진입
+conda activate soldesk
+
+4. fastapi 서버 켜기
+1-1 : uv run fastapi dev (최신 버전 : 아래 명령어를 압축)
+1-2 : uvicorn main: app --reload
+
+get : 조회
+post : 삽입
+put : 수정
+patch(일부수정)
+delete : 삭제
+
+라우팅
+/todos/1 => 누가 응답할 것인가?(함수)
+
+main.py => app => FastAPI()
+
+다중 라우팅 => APIRouter()
+/users/CRUD
+/items/CRUD
+
+uv add sqlalchemy==2.0.54 oracledb
+
+uv run python -m fastapi dev
+
+service : CRUD 호출
+routes : 클라이언트 요청, service 함수 호출
