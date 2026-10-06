@@ -2,8 +2,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,python,venv
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,python,venv
 
-.env
-.txt
+*.env
+*.txt
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
