@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,python,venv
 
 .env
+.txt
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

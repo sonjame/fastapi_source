@@ -43,3 +43,10 @@ uv run python -m fastapi dev
 
 service : CRUD 호출
 routes : 클라이언트 요청, service 함수 호출
+
+비밀번호 암호화 - bcrypt
+
+uv add "pwdlib[bcrypt]"
+
+uv add "pwdlib[argon2]"
+

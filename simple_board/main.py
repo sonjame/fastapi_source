@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers.board_router import board_router
+from routers.user_router import auth_router
+from routers.comment_router import comment_router
+from core.lifespan import lifespan
 
-
-app = FastAPI()
+app = FastAPI(lifespan=lifespan, title="Board & User Project", version="1.0.0")
 
 # CORS 설정
 app.add_middleware(
@@ -16,3 +18,6 @@ app.add_middleware(
 
 # router 설정 - 개별 라우터 생성 후 포함
 app.include_router(board_router, prefix="/boards")
+app.include_router(auth_router, prefix="/auth")
+app.include_router(comment_router, prefix="/comments")
+
