@@ -25,9 +25,14 @@ Password = Annotated[
 
 # 회원가입 - 비밀번호 규칙 적용(대문자,소문자,숫자,특수문자(@!$*-))
 class UserCreate(BaseModel):
-    email:EmailStr
+    email:EmailStr = Field(max_length=100)
     password: Password
     name:str=Field(min_length=1, max_length=30)
+
+
+class SignupResponse(BaseModel):
+    message: str
+    user_id: int
 
 # 로그인
 class UserLogin(BaseModel):
@@ -51,3 +56,8 @@ class UserResponse(BaseModel):
     user_id:int
     email: EmailStr
     name: str
+
+# Token 타입
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"

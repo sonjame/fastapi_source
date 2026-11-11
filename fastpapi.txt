@@ -15,9 +15,6 @@ uv add "fastapi[standard]"
 2. fastapi 초기설정 파일 생성
 uv init
 
-3. 가상환경 진입
-conda activate soldesk
-
 4. fastapi 서버 켜기
 1-1 : uv run fastapi dev (최신 버전 : 아래 명령어를 압축)
 1-2 : uvicorn main: app --reload
@@ -49,3 +46,29 @@ routes : 클라이언트 요청, service 함수 호출
 uv add "pwdlib[bcrypt]"
 
 uv add "pwdlib[argon2]"
+
+HI5HL3V3L$3CR3T
+
+JWT라이브러리 생성
+uv add pyjwt
+
+openssl rand -hex 32
+
+uv add alembic
+
+alembic : 데이터베이스 변경 이력 관리
+현재프로젝트에 alembic 적용
+
+uv run alembic init alembic
+
+uv run alembic revision --autogenerate -m "add views"
+uv run alembic revision --autogenerate -m "create board_views"
+
+명령어
+초기화 : alembic init 폴더명 => 지정한폴더 + *.init_db
+마이그레이션 파일 생성 : alembic revision --autogenerate -m 메세지
+최신 db 상태로 업그레이드 : uv run alembic upgrade head
+이전 버전으로 롤잭 : alembic downgrade -1
+
+
+

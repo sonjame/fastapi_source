@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from repository.database import init_db
 
 
 @asynccontextmanager
@@ -9,7 +8,7 @@ async def lifespan(app:FastAPI):
     print("서버 시작")
 
     # 데이터베이스 초기화
-    init_db()
+    # init_db()
     # LLM 초기화
     # 벡터DB 초기화
 

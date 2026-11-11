@@ -1,10 +1,13 @@
 from fastapi import APIRouter, HTTPException, status
 from services.user import (authenticate, register, update_name, update_email, update_password,)
-from schemas.user import UserCreate, UserLogin, UserResponse, NameChange, PasswordChange, EmailChange
+from schemas.user import UserCreate, UserLogin, UserResponse, SignupResponse, NameChange, PasswordChange, EmailChange
 from sqlalchemy.orm import Session
 from fastapi import Depends
 from repository.database import get_db
 from exceptions.user import UserAlreadyExistsExcepation, UserNotFoundException, InvalidPasswordException,  SamePasswordExcepation
+from schemas.user import Token
+from repository.models.user import User
+from core.dependencies import get_current_user
 
 auth_router = APIRouter(tags=["Users"])
 
@@ -14,20 +17,25 @@ auth_router = APIRouter(tags=["Users"])
 # 이름수정 /auth/1/name + patch
 # 이메일수정 /auth/1/email + patch
 
-@auth_router.post(path="", response_model=dict)
-async def post_signup(data:UserCreate, db:Session=Depends(get_db)) -> dict:
+@auth_router.get("/me", response_model=UserResponse)
+async def read_me(current_user:User=Depends(get_current_user))->UserResponse:
+    return current_user
+
+
+@auth_router.post(path="", response_model=SignupResponse, status_code=status.HTTP_201_CREATED)
+def post_signup(data:UserCreate, db:Session=Depends(get_db)) -> SignupResponse:
     try:
         user = register(data=data, db=db)
     except UserAlreadyExistsExcepation:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="중복된 이메일이 존재합니다."
         )
-    return {"message": "회원가입이 완료되었습니다.", "user_id":user.user_id}
+    return SignupResponse(message="회원가입이 완료되었습니다.", user_id=user.user_id)
 
-@auth_router.post(path="/login", response_model=UserResponse)
-async def post_signin(data:UserLogin, db:Session=Depends(get_db)) -> UserResponse:
+@auth_router.post(path="/login", response_model=Token)
+async def post_signin(data:UserLogin, db:Session=Depends(get_db)) -> Token:
     try:
-        user = authenticate(data=data, db=db)
+        token = authenticate(data=data, db=db)
     except UserNotFoundException:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
         detail="아이디나 비밀번호를 확인해주세요",)
@@ -35,7 +43,7 @@ async def post_signin(data:UserLogin, db:Session=Depends(get_db)) -> UserRespons
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
         detail="아이디나 비밀번호를 확인해주세요",)
 
-    return user
+    return token
 
 @auth_router.patch(path="/{user_id}/name", response_model=dict)
 async def patch_name(user_id:int, data:NameChange, db:Session=Depends(get_db)):

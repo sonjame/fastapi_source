@@ -19,7 +19,6 @@ class CommentResponse(BaseModel):
 
 
 class BoardCreate(BaseModel):
-    user_id: int
     title:str
     contents:str
 
@@ -34,6 +33,8 @@ class BoardResponse(BaseModel):
     contents:str
     user_id: int
     created_at:datetime
+    # 조회수
+    views: int
     # 게시글 작성자 이름
     user: UserResponse
     # 댓글목록
@@ -45,6 +46,8 @@ class BoardPageResponse(BaseModel):
     page:int
     size:int
     total_pages: int
+    criteria: str
+    keyword: str
 
 
 class Comment(BaseModel):
